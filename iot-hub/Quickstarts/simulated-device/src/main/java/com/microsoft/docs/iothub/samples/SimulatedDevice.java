@@ -19,7 +19,7 @@ public class SimulatedDevice {
   // The device connection string to authenticate the device with your IoT hub.
   // Using the Azure CLI:
   // az iot hub device-identity show-connection-string --hub-name {YourIoTHubName} --device-id MyJavaDevice --output table
-  private static String connString = "{Your device connection string here}";
+  private static String connString = "HostName=OpenHack-team-8.azure-devices.net;DeviceId=MyJavaDevice-sukh;SharedAccessKey=g1UOU2PPQUBltDCokehjAzg5N3H9X7qEGqM0SJiJP+Q=";
 
   // Using the MQTT protocol to connect to IoT Hub
   private static IotHubClientProtocol protocol = IotHubClientProtocol.MQTT;
