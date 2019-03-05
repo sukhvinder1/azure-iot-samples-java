@@ -11,7 +11,9 @@ import com.google.gson.Gson;
 
 import java.io.*;
 import java.net.URISyntaxException;
+import java.time.LocalDate;
 import java.util.Random;
+import java.util.UUID;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ExecutorService;
 
@@ -27,8 +29,10 @@ public class SimulatedDevice {
 
   // Specify the telemetry to send to your IoT hub.
   private static class TelemetryDataPoint {
-    public double temperature;
-    public double humidity;
+//    public double temperature;
+//    public double humidity;
+    public String uuid;
+    public String time;
 
     // Serialize object to JSON format.
     public String serialize() {
@@ -60,11 +64,11 @@ public class SimulatedDevice {
 
         while (true) {
           // Simulate telemetry.
-          double currentTemperature = minTemperature + rand.nextDouble() * 15;
-          double currentHumidity = minHumidity + rand.nextDouble() * 20;
+//          double currentTemperature = minTemperature + rand.nextDouble() * 15;
+//          double currentHumidity = minHumidity + rand.nextDouble() * 20;
           TelemetryDataPoint telemetryDataPoint = new TelemetryDataPoint();
-          telemetryDataPoint.temperature = currentTemperature;
-          telemetryDataPoint.humidity = currentHumidity;
+          telemetryDataPoint.uuid = UUID.randomUUID().toString();
+          telemetryDataPoint.time = LocalDate.now().toString();
 
           // Add the telemetry to the message body as JSON.
           String msgStr = telemetryDataPoint.serialize();
@@ -72,7 +76,7 @@ public class SimulatedDevice {
 
           // Add a custom application property to the message.
           // An IoT hub can filter on these properties without access to the message body.
-          msg.setProperty("temperatureAlert", (currentTemperature > 30) ? "true" : "false");
+//          msg.setProperty("temperatureAlert", (currentTemperature > 30) ? "true" : "false");
 
           System.out.println("Sending message: " + msgStr);
 
