@@ -31,3 +31,6 @@ target
 
 # Maven version backups
 *.versionsBackup
+
+iot-hub/Quickstarts/read-d2c-messages/read-d2c-messages.iml
+iot-hub/Quickstarts/simulated-device/simulated-device.iml
