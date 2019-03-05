@@ -6,16 +6,18 @@
 
 package com.microsoft.docs.iothub.samples;
 
-import com.microsoft.azure.sdk.iot.device.*;
 import com.google.gson.Gson;
+import com.microsoft.azure.sdk.iot.device.*;
 
-import java.io.*;
+import java.io.IOException;
 import java.net.URISyntaxException;
-import java.time.LocalDate;
+import java.sql.Timestamp;
 import java.util.Random;
 import java.util.UUID;
-import java.util.concurrent.Executors;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import static java.lang.System.currentTimeMillis;
 
 public class SimulatedDevice {
   // The device connection string to authenticate the device with your IoT hub.
@@ -31,8 +33,8 @@ public class SimulatedDevice {
   private static class TelemetryDataPoint {
 //    public double temperature;
 //    public double humidity;
-    public String uuid;
-    public String time;
+    public String ticketId;
+    public String entryTime;
 
     // Serialize object to JSON format.
     public String serialize() {
@@ -67,8 +69,8 @@ public class SimulatedDevice {
 //          double currentTemperature = minTemperature + rand.nextDouble() * 15;
 //          double currentHumidity = minHumidity + rand.nextDouble() * 20;
           TelemetryDataPoint telemetryDataPoint = new TelemetryDataPoint();
-          telemetryDataPoint.uuid = UUID.randomUUID().toString();
-          telemetryDataPoint.time = LocalDate.now().toString();
+          telemetryDataPoint.ticketId = UUID.randomUUID().toString();
+          telemetryDataPoint.entryTime = new Timestamp(currentTimeMillis()).toString();
 
           // Add the telemetry to the message body as JSON.
           String msgStr = telemetryDataPoint.serialize();
@@ -103,7 +105,7 @@ public class SimulatedDevice {
     client = new DeviceClient(connString, protocol);
     client.open();
 
-    // Create new thread and start sending messages 
+    // Create new thread and start sending messages
     MessageSender sender = new MessageSender();
     ExecutorService executor = Executors.newFixedThreadPool(1);
     executor.execute(sender);
